@@ -1,0 +1,17 @@
+#rssbutton {
+    background-color: #cc0000;
+    border: 0;
+    box-shadow: none;
+    border-radius: 2px;
+    color: #FFF;
+    font-weight: bold;
+    font-size: 1.4rem;
+    padding: 10px 16px;
+    cursor: pointer;
+    outline:0;
+}
+
+#rssbutton:active {
+    background-color: #e0e0e0;
+    color: #606060;
+}

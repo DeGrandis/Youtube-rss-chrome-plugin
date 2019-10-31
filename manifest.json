@@ -11,6 +11,7 @@
   },
   "default_locale": "en",
   "permissions": [
+      "webNavigation",
     "https://www.youtube.com/watch?*"
   ],
   "content_scripts": [
@@ -18,9 +19,16 @@
       "matches": [
         "https://www.youtube.com/watch?*"
       ],
+      "css":[
+          "css/styles.css"
+      ],
       "js": [
-        "src/inject/inject.js"
+        "src/inject/contentScript.js"
       ]
+
     }
-  ]
+  ],
+  "background": {
+      "scripts": ["src/background.js"]
+  }
 }

@@ -2,9 +2,10 @@ chrome.extension.sendMessage({}, function(response) {
 	var readyStateCheckInterval = setInterval(function() {
 		if (document.readyState === "complete") {
 			clearInterval(readyStateCheckInterval);
-			var main = document.getElementById('info')
+			var main = document.getElementById('sponsor-button')
 			var button = document.createElement("button");
 		    var text = document.createTextNode("RSS");
+			button.setAttribute("id", "rssbutton");
 		    button.appendChild(text);
 		    main.appendChild(button);
 			button.onclick = rss;
@@ -17,12 +18,16 @@ chrome.extension.sendMessage({}, function(response) {
 			    }
 			}
 
-			main.appendChild(box);
+			//main.appendChild(box);
 		}
 	}, 10);
 });
 
 
 function rss() {
+	styles();
+}
 
+function styles() {
+	//this.setAttribute("style", "background-color:#fff");
 }
