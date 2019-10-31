@@ -8,23 +8,34 @@ chrome.extension.sendMessage({}, function(response) {
 			button.setAttribute("id", "rssbutton");
 		    button.appendChild(text);
 		    main.appendChild(button);
-			button.onclick = rss;
-			var box = document.createElement("p");
+			//button.onclick = rss;
+
+			var link = document.createElement("p");
 			for (var arrScripts = document.getElementsByTagName('script'), i = 0; i < arrScripts.length; i++) {
 			    if (arrScripts[i].textContent.indexOf('browseId') != -1) {
 			        var channelId = arrScripts[i].textContent.match(/\"browseId\"\s*\:\s*\"(.*?)\"/)[1];
-			        box.innerHTML = channelRss = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId;
+			        link.innerHTML = channelRss = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId;
 					break;
 			    }
 			}
+			var info = document.getElementById('info');
+			info.appendChild(link);
+			link.style.display = "none";
 
-			//main.appendChild(box);
+			button.addEventListener('click', function() {
+            	rss(link);
+        	});
 		}
 	}, 10);
 });
 
 
-function rss() {
+function rss(rssinfo) {
+	if (rssinfo.style.display === "none") {
+    	rssinfo.style.display = "block";
+  	} else {
+    	rssinfo.style.display = "none";
+  	}
 	styles();
 }
 
