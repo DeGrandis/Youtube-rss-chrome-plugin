@@ -9,6 +9,17 @@
     padding: 10px 16px;
     cursor: pointer;
     outline:0;
+    display: flex;
+    margin-top: 13px;
+    margin-bottom: 13px;
+}
+
+#buttonDiv {
+
+}
+
+#sponsor-button {
+    margin-left: 4px;
 }
 
 #rssbutton:active {

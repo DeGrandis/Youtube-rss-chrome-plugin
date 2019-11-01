@@ -2,29 +2,34 @@ chrome.extension.sendMessage({}, function(response) {
 	var readyStateCheckInterval = setInterval(function() {
 		if (document.readyState === "complete") {
 			clearInterval(readyStateCheckInterval);
-			var main = document.getElementById('sponsor-button')
+			var main = document.getElementById('sponsor-button');
+			//var main = document.getElementById('subscribe-button');
+			var buttonDiv = document.createElement("div");
+			buttonDiv.setAttribute("id", "buttonDiv");
 			var button = document.createElement("button");
-		    var text = document.createTextNode("RSS");
 			button.setAttribute("id", "rssbutton");
-		    button.appendChild(text);
-		    main.appendChild(button);
+
+		    var text = document.createTextNode("RSS");
 			var rssDiv = document.createElement("div");
 			rssDiv.setAttribute("id", "rssDiv");
+			rssDiv.setAttribute("id", "rssDiv");
+
 			var link = document.createElement("input");
 			link.setAttribute("id", "linkInputBox")
-			// for (var arrScripts = document.getElementsByTagName('script'), i = 0; i < arrScripts.length; i++) {
-			//     if (arrScripts[i].textContent.indexOf('browseId') != -1) {
-			//         var channelId = arrScripts[i].textContent.match(/\"browseId\"\s*\:\s*\"(.*?)\"/)[1];
-			//         link.value = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId;
-			// 		console.log(link.value);
-			//     }
-			// }
-			link.value = document.links[9].href.split("/")[4];
+
 			var info = document.getElementById('info');
+
+		    button.appendChild(text);
+			buttonDiv.appendChild(button)
+			buttonDiv.setAttribute("class", "style-scope ytd-video-secondary-info-renderer");
+			main.parentNode.insertBefore(buttonDiv, main);
+		    //main.appendChild(button);
+
 			rssDiv.appendChild(link);
 			info.appendChild(rssDiv);
-			//rssDiv.style.display = "none";
+
 			$("#rssDiv").hide();
+
 			button.addEventListener('click', function() {
             	rss(rssDiv);
         	});
@@ -43,11 +48,12 @@ function rss(rssinfo) {
 	if (rssinfo.style.display === "none") {
     	$("#rssDiv").show(slideSpeed);
 		var copyText = document.getElementById("linkInputBox");
+		copyText.value = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + document.getElementById("text-container").getElementsByTagName("a")[0].href.split("/")[4];
 	  	copyText.select();
 	  	copyText.setSelectionRange(0, 99999);
 	  	document.execCommand("copy");
 		copyText.blur();
-		$("#rssDiv").delay(1000).hide(slideSpeed);
+		$("#rssDiv").delay(2000).hide(slideSpeed);
   	} else {
     	$("#rssDiv").hide(slideSpeed);
   	}
