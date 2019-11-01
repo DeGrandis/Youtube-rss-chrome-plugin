@@ -15,3 +15,26 @@
     background-color: #e0e0e0;
     color: #606060;
 }
+
+#rssDiv {
+    font-size: 20px;
+    padding-left: 0px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+#linkInputBox {
+    width: 600px;
+    outline: none;
+    box-shadow: none;
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    border-bottom-style: hidden;
+    background-color: #fafafa;
+    font-size: 16px;
+    color: #212121;
+}
+#linkInputBox:focus {
+    outline: none;
+}

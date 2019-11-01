@@ -23,6 +23,7 @@
           "css/styles.css"
       ],
       "js": [
+        "js/jquery/jquery.js",
         "src/inject/contentScript.js"
       ]
 
