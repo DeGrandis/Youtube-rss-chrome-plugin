@@ -1,8 +1,8 @@
 {
-  "name": "Youtusbe RSS",
-  "version": "0.0.1",
+  "name": "Youtube RSS",
+  "version": "1.0.0",
   "manifest_version": 2,
-  "description": "This extension was created with the awesome extensionizr.com",
+  "description": "This plugin adds the RSS button back to Youtube.",
   "homepage_url": "http://extensionizr.com",
   "icons": {
     "16": "icons/icon16.png",
@@ -12,12 +12,12 @@
   "default_locale": "en",
   "permissions": [
       "webNavigation",
-    "https://www.youtube.com/watch?*"
+    "https://www.youtube.com/watch?v=*"
   ],
   "content_scripts": [
     {
       "matches": [
-        "https://www.youtube.com/watch?*"
+        "https://*.youtube.com/*"
       ],
       "css":[
           "css/styles.css"
@@ -26,7 +26,6 @@
         "js/jquery/jquery.js",
         "src/inject/contentScript.js"
       ]
-
     }
   ],
   "background": {

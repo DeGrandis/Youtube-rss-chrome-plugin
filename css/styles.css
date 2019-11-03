@@ -9,9 +9,6 @@
     padding: 10px 16px;
     cursor: pointer;
     outline:0;
-    display: flex;
-    margin-top: 13px;
-    margin-bottom: 13px;
 }
 
 #buttonDiv {
@@ -19,7 +16,7 @@
 }
 
 #sponsor-button {
-    margin-left: 4px;
+    /*margin-left: 4px;*/
 }
 
 #rssbutton:active {
@@ -32,10 +29,14 @@
     padding-left: 0px;
     padding-top: 15px;
     padding-bottom: 15px;
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
 }
 
 #linkInputBox {
-    width: 600px;
+    width: 1px;
+    height: 1px;
     outline: none;
     box-shadow: none;
     border-top-style: hidden;
@@ -46,6 +47,14 @@
     font-size: 16px;
     color: #212121;
 }
+
 #linkInputBox:focus {
     outline: none;
+}
+
+#copyText {
+    background-color: #065fd4;
+    border-radius: 2px;
+    color: #fff;
+    padding: 4px 10px 4px 10px;
 }
