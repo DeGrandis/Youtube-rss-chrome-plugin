@@ -1,3 +1,4 @@
 theme: jekyll-theme-minimal
 title: Youtube RSS Plugin
 description: Holds the info about this simple extension.  Adds a Youtube RSS Button
+logo: https://raw.githubusercontent.com/DeGrandis/Youtube-rss-chrome-plugin/master/plugin/icons/icon128.png
