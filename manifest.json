@@ -27,8 +27,5 @@
         "src/inject/contentScript.js"
       ]
     }
-  ],
-  "background": {
-      "scripts": ["src/background.js"]
-  }
+  ]
 }

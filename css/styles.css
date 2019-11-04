@@ -11,14 +11,6 @@
     outline:0;
 }
 
-#buttonDiv {
-
-}
-
-#sponsor-button {
-    /*margin-left: 4px;*/
-}
-
 #rssbutton:active {
     background-color: #e0e0e0;
     color: #606060;
