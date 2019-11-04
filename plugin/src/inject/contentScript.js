@@ -39,9 +39,17 @@ function rss(rssinfo) {
 	if (rssinfo.style.display === "none") {
     	$("#rssDiv").slideDown(slideSpeed);
 		var copyText = document.getElementById("linkInputBox");
+		var urlFragment = 'https://www.youtube.com/feeds/videos.xml?channel_id=';
 		var uploadInfoArray = document.querySelectorAll("[id='upload-info']");
-		copyText.value = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + uploadInfoArray[uploadInfoArray.length - 1].getElementsByTagName("a")[0].href.split("/")[4];
-	  	copyText.select();
+	
+		for (var i = 0; i < uploadInfoArray.length; i++) {
+			if (!(uploadInfoArray[i].getElementsByTagName("a")[0] === undefined)) {
+				copyText.value = urlFragment + uploadInfoArray[i].getElementsByTagName("a")[0].href.split("/")[4];
+				break;
+			}
+		}
+
+		copyText.select();
 	  	copyText.setSelectionRange(0, 99999);
 	  	document.execCommand("copy");
 		copyText.blur();
