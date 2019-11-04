@@ -3,7 +3,7 @@
 $(document).ready(function() {
 	setTimeout(function () {
         init();
-		console.log("Init Done");
+				//console.log("Init Done");
     }, 1000);
 });
 
@@ -15,7 +15,7 @@ function init() {
 	if (!(main && currentUrl)) {
 		setTimeout(function() {
 			init();
-			console.log("loading again");
+			//console.log("loading again");
 		}, 1000);
 		return false;
 	}
@@ -39,7 +39,8 @@ function rss(rssinfo) {
 	if (rssinfo.style.display === "none") {
     	$("#rssDiv").slideDown(slideSpeed);
 		var copyText = document.getElementById("linkInputBox");
-		copyText.value = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + document.querySelectorAll("[id='upload-info']")[1].getElementsByTagName("a")[0].href.split("/")[4];
+		var uploadInfoArray = document.querySelectorAll("[id='upload-info']");
+		copyText.value = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + uploadInfoArray[uploadInfoArray.length - 1].getElementsByTagName("a")[0].href.split("/")[4];
 	  	copyText.select();
 	  	copyText.setSelectionRange(0, 99999);
 	  	document.execCommand("copy");
