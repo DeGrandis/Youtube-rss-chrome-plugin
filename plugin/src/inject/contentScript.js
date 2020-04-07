@@ -23,7 +23,14 @@ function init() {
 	var rssButton = createRSSButton();
 	main.appendChild(rssButton);
 
-	var info = document.getElementById('info');
+	var info;
+	var divs = document.querySelectorAll('[id=info]');;
+	for (var i = 0; i < divs.length; i++) {
+		if (divs[i].className == "style-scope ytd-watch-flexy") {
+			info = divs[i];
+			break;
+		}
+	}
 
 	var infoPopup = createPopup();
 	info.appendChild(infoPopup);
@@ -41,7 +48,7 @@ function rss(rssinfo) {
 		var copyText = document.getElementById("linkInputBox");
 		var urlFragment = 'https://www.youtube.com/feeds/videos.xml?channel_id=';
 		var uploadInfoArray = document.querySelectorAll("[id='upload-info']");
-	
+
 		for (var i = 0; i < uploadInfoArray.length; i++) {
 			if (!(uploadInfoArray[i].getElementsByTagName("a")[0] === undefined)) {
 				copyText.value = urlFragment + uploadInfoArray[i].getElementsByTagName("a")[0].href.split("/")[4];
