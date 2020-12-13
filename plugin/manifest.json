@@ -1,6 +1,6 @@
 {
   "name": "Youtube RSS",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "manifest_version": 2,
   "description": "This plugin adds the RSS button back to Youtube.",
   "homepage_url": "https://degrandis.github.io/Youtube-rss-chrome-plugin/",
@@ -24,7 +24,7 @@
           "css/styles.css"
       ],
       "js": [
-        "js/jquery/jquery.js",
+        "js/jquery/jquery-3.5.1.js",
         "src/inject/contentScript.js"
       ]
     }
