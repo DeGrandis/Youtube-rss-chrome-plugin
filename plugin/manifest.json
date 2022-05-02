@@ -11,9 +11,6 @@
     "128": "icons/icon128.png"
   },
   "default_locale": "en",
-  "permissions": [
-      "webNavigation"
-  ],
   "host_permissions": [
     "https://www.youtube.com/watch?v=*"
   ],
