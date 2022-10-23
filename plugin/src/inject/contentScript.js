@@ -47,17 +47,11 @@ function rss(rssinfo) {
     	$("#rssDiv").slideDown(slideSpeed);
 		var copyText = document.getElementById("linkInputBox");
 		var urlFragment = 'https://www.youtube.com/feeds/videos.xml?channel_id=';
-		var uploadInfoArray = document.querySelectorAll("[id='upload-info']");
-
-		for (var i = 0; i < uploadInfoArray.length; i++) {
-			if (!(uploadInfoArray[i].getElementsByTagName("a")[0] === undefined)) {
-				copyText.value = urlFragment + uploadInfoArray[i].getElementsByTagName("a")[0].href.split("/")[4];
-				break;
-			}
-		}
-
+		var externalId =  document.querySelector("meta[itemprop=channelId]").getAttribute("content");
+		var url = urlFragment + externalId
+		copyText.value = url;
 		copyText.select();
-	  	copyText.setSelectionRange(0, 99999);
+	  	copyText.setSelectionRange(0, url.length);
 	  	document.execCommand("copy");
 		copyText.blur();
 		$("#rssDiv").delay(2000).slideUp(slideSpeed);
