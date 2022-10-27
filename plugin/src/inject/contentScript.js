@@ -10,7 +10,7 @@ $(document).ready(function() {
 //determines if page is a video.
 //if it is, it  creates the elements and puts them on the page
 function init() {
-	var main = document.querySelector('#top-row.style-scope.ytd-video-secondary-info-renderer');
+	var main = document.querySelector('#owner');
 	var currentUrl = window.location.href.split("/")[3];
 	if (!(main && currentUrl)) {
 		setTimeout(function() {
@@ -33,7 +33,7 @@ function init() {
 	}
 
 	var infoPopup = createPopup();
-	info.appendChild(infoPopup);
+   	main.appendChild(infoPopup);
 
 	$("#rssDiv").hide();
 }
@@ -54,7 +54,7 @@ function rss(rssinfo) {
 	  	copyText.setSelectionRange(0, url.length);
 	  	document.execCommand("copy");
 		copyText.blur();
-		$("#rssDiv").delay(2000).slideUp(slideSpeed);
+		$("#rssDiv").delay(1000).slideUp(slideSpeed);
   	} else {
     	$("#rssDiv").fadeOut(slideSpeed);
   	}
@@ -89,7 +89,7 @@ function createRSSButton() {
 function createPopup() {
 	var rssDiv = document.createElement("div");
 	rssDiv.setAttribute("id", "rssDiv");
-
+    rssDiv.style.setProperty("position", "absolute");
 	var link = document.createElement("input");
 	link.setAttribute("id", "linkInputBox");
 

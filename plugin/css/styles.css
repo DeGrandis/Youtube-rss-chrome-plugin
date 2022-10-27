@@ -1,6 +1,7 @@
 #rssbutton {
     background-color: #cc0000;
     border: 0;
+    border-radius:
     box-shadow: none;
     border-radius: 2px;
     color: #FFF;
@@ -9,11 +10,21 @@
     padding: 10px 16px;
     cursor: pointer;
     outline:0;
+
+    padding: 0 16px;
+    height: 36px;
+    font-size: 14px;
+    line-height: 36px;
+    border-radius: 18px;
+
+}
+#rssbutton:hover{
+    background-color:#cc3333;
 }
 
 #rssbutton:active {
-    background-color: #e0e0e0;
-    color: #606060;
+    background-color: #ff6666;
+
 }
 
 #rssDiv {
