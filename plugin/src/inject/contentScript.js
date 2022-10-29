@@ -10,7 +10,7 @@ $(document).ready(function() {
 //determines if page is a video.
 //if it is, it  creates the elements and puts them on the page
 function init() {
-	var main = document.querySelector('#top-row.style-scope.ytd-video-secondary-info-renderer');
+	var main = document.querySelector('#owner');
 	var currentUrl = window.location.href.split("/")[3];
 	if (!(main && currentUrl)) {
 		setTimeout(function() {
@@ -33,7 +33,7 @@ function init() {
 	}
 
 	var infoPopup = createPopup();
-	info.appendChild(infoPopup);
+   	main.appendChild(infoPopup);
 
 	$("#rssDiv").hide();
 }
@@ -47,20 +47,14 @@ function rss(rssinfo) {
     	$("#rssDiv").slideDown(slideSpeed);
 		var copyText = document.getElementById("linkInputBox");
 		var urlFragment = 'https://www.youtube.com/feeds/videos.xml?channel_id=';
-		var uploadInfoArray = document.querySelectorAll("[id='upload-info']");
-
-		for (var i = 0; i < uploadInfoArray.length; i++) {
-			if (!(uploadInfoArray[i].getElementsByTagName("a")[0] === undefined)) {
-				copyText.value = urlFragment + uploadInfoArray[i].getElementsByTagName("a")[0].href.split("/")[4];
-				break;
-			}
-		}
-
+		var externalId =  document.querySelector("meta[itemprop=channelId]").getAttribute("content");
+		var url = urlFragment + externalId
+		copyText.value = url;
 		copyText.select();
-	  	copyText.setSelectionRange(0, 99999);
+	  	copyText.setSelectionRange(0, url.length);
 	  	document.execCommand("copy");
 		copyText.blur();
-		$("#rssDiv").delay(2000).slideUp(slideSpeed);
+		$("#rssDiv").delay(1000).slideUp(slideSpeed);
   	} else {
     	$("#rssDiv").fadeOut(slideSpeed);
   	}
@@ -95,7 +89,7 @@ function createRSSButton() {
 function createPopup() {
 	var rssDiv = document.createElement("div");
 	rssDiv.setAttribute("id", "rssDiv");
-
+    rssDiv.style.setProperty("position", "absolute");
 	var link = document.createElement("input");
 	link.setAttribute("id", "linkInputBox");
 
