@@ -52,13 +52,6 @@
     margin: 0 0 6px;
 }
 
-.yt-rss-result .yt-rss-note {
-    margin: 8px 0 0;
-    color: var(--yt-spec-text-secondary, #606060);
-    font-size: 12px;
-    line-height: 1.4;
-}
-
 .yt-rss-result input {
     box-sizing: border-box;
     width: 100%;
