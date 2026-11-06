@@ -1,6 +1,6 @@
 
 # Youtube RSS Button Plugin
-This simple plugin adds back the RSS button that was removed from Youtube in 2014.  Simply add the extension to your browser, click the RSS button, and paste it into your RSS Reader.
+This simple plugin adds back the RSS button that was removed from Youtube in 2014.  Add the extension to your browser, click the RSS button next to Subscribe on any video or channel page, and paste the link into your RSS reader.
 
 ## Installation
 This extension is available on the [Chrome Web Store](https://chrome.google.com/webstore/detail/youtube-rss/cmkhdimgaondkfghelifknnpicdajeim).
@@ -22,3 +22,10 @@ These readers are all open source projects.
  - [QuiteRSS](https://quiterss.org/)
  - [RSSOwl](http://www.rssowl.org/)
  - [Miniflux](https://miniflux.app/)
+
+## Testing
+`tests/check.mjs` loads the extension into Chromium and clicks the button on live YouTube video and channel pages, with no account needed:
+
+```bash
+cd tests && npm install && npm run check
+```

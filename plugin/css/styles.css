@@ -1,63 +1,64 @@
-#rssbutton {
-    background-color: #cc0000;
-    border: 0;
-    border-radius:
-    box-shadow: none;
-    border-radius: 2px;
-    color: #FFF;
-    font-weight: bold;
-    font-size: 1.4rem;
-    padding: 10px 16px;
-    cursor: pointer;
-    outline:0;
+.yt-rss {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+    margin-left: 8px;
+}
 
-    padding: 0 16px;
+.yt-rss-button {
     height: 36px;
-    font-size: 14px;
-    line-height: 36px;
+    padding: 0 16px;
+    border: 0;
     border-radius: 18px;
-
-}
-#rssbutton:hover{
-    background-color:#cc3333;
-}
-
-#rssbutton:active {
-    background-color: #ff6666;
-
-}
-
-#rssDiv {
-    font-size: 20px;
-    padding-left: 0px;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    font-size: 16px;
-    width: 100%;
-    text-align: center;
-}
-
-#linkInputBox {
-    width: 1px;
-    height: 1px;
-    outline: none;
-    box-shadow: none;
-    border-top-style: hidden;
-    border-right-style: hidden;
-    border-left-style: hidden;
-    border-bottom-style: hidden;
-    background-color: #fafafa;
-    font-size: 16px;
-    color: #212121;
-}
-
-#linkInputBox:focus {
-    outline: none;
-}
-
-#copyText {
-    background-color: #065fd4;
-    border-radius: 2px;
+    background-color: #cc0000;
     color: #fff;
-    padding: 4px 10px 4px 10px;
+    font-family: "Roboto", "Arial", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 36px;
+    cursor: pointer;
+}
+
+.yt-rss-button:hover {
+    background-color: #e02020;
+}
+
+.yt-rss-button:active {
+    background-color: #a30000;
+}
+
+.yt-rss-button:focus-visible {
+    outline: 2px solid #065fd4;
+    outline-offset: 2px;
+}
+
+.yt-rss-result {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: 2000;
+    width: 360px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background-color: var(--yt-spec-menu-background, #fff);
+    color: var(--yt-spec-text-primary, #0f0f0f);
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.2);
+    font-family: "Roboto", "Arial", sans-serif;
+    font-size: 14px;
+}
+
+.yt-rss-result p {
+    margin: 0 0 6px;
+}
+
+.yt-rss-result input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid var(--yt-spec-10-percent-layer, #ccc);
+    border-radius: 4px;
+    background-color: transparent;
+    color: inherit;
+    font: 12px "Roboto Mono", monospace;
 }
