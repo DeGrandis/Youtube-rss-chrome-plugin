@@ -38,18 +38,34 @@
     top: calc(100% + 8px);
     left: 0;
     z-index: 2000;
-    width: 360px;
-    padding: 10px 12px;
+    width: max-content;
+    padding: 8px 12px;
     border-radius: 8px;
-    background-color: var(--yt-spec-menu-background, #fff);
-    color: var(--yt-spec-text-primary, #0f0f0f);
+    background-color: #fff;
+    color: #0f0f0f;
     box-shadow: 0 4px 32px rgba(0, 0, 0, 0.2);
     font-family: "Roboto", "Arial", sans-serif;
     font-size: 14px;
 }
 
+/* YouTube marks its dark theme on <html>. */
+html[dark] .yt-rss-result {
+    background-color: #282828;
+    color: #f1f1f1;
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* Only when the clipboard refused, with the link to copy by hand. */
+.yt-rss-result:has(input) {
+    width: 360px;
+}
+
 .yt-rss-result p {
-    margin: 0 0 6px;
+    margin: 0;
+}
+
+.yt-rss-result p + input {
+    margin-top: 6px;
 }
 
 .yt-rss-result input {
