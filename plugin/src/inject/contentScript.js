@@ -56,10 +56,16 @@ function showResult(button, message, url) {
     field.readOnly = true;
     field.value = url;
     field.addEventListener('focus', () => field.select());
-    result.append(field);
+    // YouTube's feed server has been failing at random since late 2025, and a reader that
+    // hits a failure when the feed is first added tends to report the link as broken.
+    const note = document.createElement('p');
+    note.className = 'yt-rss-note';
+    note.textContent = 'This link is correct, but YouTube\'s feed server often fails at random right now. '
+      + 'If your reader says the feed is broken, try adding it again.';
+    result.append(field, note);
   }
   button.after(result);
-  setTimeout(() => result.remove(), 6000);
+  setTimeout(() => result.remove(), 12000);
 }
 
 async function copyFeed(button) {

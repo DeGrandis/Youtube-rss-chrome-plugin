@@ -23,6 +23,9 @@ These readers are all open source projects.
  - [RSSOwl](http://www.rssowl.org/)
  - [Miniflux](https://miniflux.app/)
 
+## If your reader says the feed is broken
+The link the button copies is correct. Since late 2025, YouTube's own feed server has been failing at random, answering "not found" for about half of requests to feeds that work. Add the feed again, or wait for your reader's next check. Most readers retry on their own.
+
 ## Testing
 `tests/check.mjs` loads the extension into Chromium and clicks the button on live YouTube video and channel pages, with no account needed:
 
