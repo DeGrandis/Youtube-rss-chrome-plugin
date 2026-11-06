@@ -44,7 +44,8 @@ function channelId(path) {
   return ids.get(path);
 }
 
-function showResult(button, message, url) {
+// `url` is shown in a box to copy by hand, only when the clipboard refused it.
+function showResult(button, message, { url, note = false } = {}) {
   button.parentElement.querySelector('.yt-rss-result')?.remove();
   const result = document.createElement('div');
   result.className = 'yt-rss-result';
@@ -56,16 +57,19 @@ function showResult(button, message, url) {
     field.readOnly = true;
     field.value = url;
     field.addEventListener('focus', () => field.select());
+    result.append(field);
+  }
+  if (note) {
     // YouTube's feed server has been failing at random since late 2025, and a reader that
     // hits a failure when the feed is first added tends to report the link as broken.
-    const note = document.createElement('p');
-    note.className = 'yt-rss-note';
-    note.textContent = 'This link is correct, but YouTube\'s feed server often fails at random right now. '
+    const extra = document.createElement('p');
+    extra.className = 'yt-rss-note';
+    extra.textContent = 'This link is correct, but YouTube\'s feed server often fails at random right now. '
       + 'If your reader says the feed is broken, try adding it again.';
-    result.append(field, note);
+    result.append(extra);
   }
   button.after(result);
-  setTimeout(() => result.remove(), 12000);
+  setTimeout(() => result.remove(), url ? 12000 : 6000);
 }
 
 async function copyFeed(button) {
@@ -79,9 +83,9 @@ async function copyFeed(button) {
   }
   try {
     await navigator.clipboard.writeText(url);
-    showResult(button, 'RSS link copied to clipboard', url);
+    showResult(button, 'RSS link copied to clipboard', { note: true });
   } catch {
-    showResult(button, 'Copy this RSS link:', url);
+    showResult(button, 'Copy this RSS link:', { url, note: true });
   }
 }
 

@@ -55,10 +55,12 @@ try {
   check('copies the feed for a channel linked by @handle (#9)',
     copied.clipboard === feed('UC4QobU6STFB0P71PMvOGN5A'), copied.clipboard);
   check('says it was copied', copied.message.includes('copied'), copied.message);
+  check('no link box to copy by hand when the clipboard worked',
+    await page.locator('#owner .yt-rss-result input').count() === 0);
   check('explains that YouTube\'s feed server is unreliable',
     (await page.locator('#owner .yt-rss-note').textContent()).includes('try adding it again'));
   const top = await page.locator('#above-the-fold #top-row').boundingBox();
-  await page.screenshot({ path: join(out, 'watch.png'), clip: { x: top.x, y: top.y - 10, width: top.width, height: 160 } });
+  await page.screenshot({ path: join(out, 'watch.png'), clip: { x: top.x, y: top.y - 10, width: top.width, height: 200 } });
 
   // Moving to another video inside YouTube, without a page load.
   await page.evaluate(() => document.querySelector('ytd-app').dispatchEvent(new CustomEvent('yt-navigate', {
