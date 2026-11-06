@@ -6,6 +6,6 @@
     "check": "node check.mjs"
   },
   "devDependencies": {
-    "playwright": "1.49.1"
+    "playwright": "1.55.1"
   }
 }
