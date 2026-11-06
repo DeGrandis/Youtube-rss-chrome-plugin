@@ -1,113 +1,122 @@
-//fires one second after page load.
-//sometimes all elements are not created.
-$(document).ready(function() {
-	setTimeout(function () {
-        init();
-				//console.log("Init Done");
-    }, 1000);
-});
+// Adds an RSS button next to the subscribe button on video and channel pages. Clicking it
+// copies the channel's feed URL. YouTube is a single page app, so the button is put back
+// whenever YouTube redraws, and the channel is read at click time rather than at load.
 
-//determines if page is a video.
-//if it is, it  creates the elements and puts them on the page
-function init() {
-	var main = document.querySelector('#owner');
-	var currentUrl = window.location.href.split("/")[3];
-	if (!(main && currentUrl)) {
-		setTimeout(function() {
-			init();
-			//console.log("loading again");
-		}, 1000);
-		return false;
-	}
+const FEED = 'https://www.youtube.com/feeds/videos.xml?channel_id=';
+const CHANNEL_PATH = /^\/(channel\/UC[\w-]{22}|@[^/?#]+)/;
 
-	var rssButton = createRSSButton();
-	main.appendChild(rssButton);
+// Where the button goes: under a video, and in a channel's header.
+const SPOTS = [
+  { page: () => location.pathname === '/watch', after: '#owner #subscribe-button' },
+  { page: () => CHANNEL_PATH.test(location.pathname), inside: '#page-header yt-flexible-actions-view-model' },
+];
 
-	var info;
-	var divs = document.querySelectorAll('[id=info]');;
-	for (var i = 0; i < divs.length; i++) {
-		if (divs[i].className == "style-scope ytd-watch-flexy") {
-			info = divs[i];
-			break;
-		}
-	}
-
-	var infoPopup = createPopup();
-   	main.appendChild(infoPopup);
-
-	$("#rssDiv").hide();
+// "/@handle" or "/channel/UC…" for the channel the current page belongs to.
+function channelPath() {
+  let href = location.pathname;
+  if (href === '/watch') {
+    const owner = document.querySelector('#owner a[href^="/channel/UC"]')
+      ?? document.querySelector('#owner a[href^="/@"]');
+    href = owner?.getAttribute('href') ?? '';
+  }
+  return href.match(CHANNEL_PATH)?.[0] ?? null;
 }
 
-//on click method for the button press.
-//extracts channel ID from profile link and appends to format.
-function rss(rssinfo) {
-	var slideSpeed = 200;
+// YouTube no longer puts the channel ID on video pages, but each channel page still links
+// its own feed. Looked up once per channel, ahead of the click where possible.
+const ids = new Map();
 
-	if (rssinfo.style.display === "none") {
-    	$("#rssDiv").slideDown(slideSpeed);
-		var copyText = document.getElementById("linkInputBox");
-		var urlFragment = 'https://www.youtube.com/feeds/videos.xml?channel_id=';
-		var externalId =  document.querySelector("meta[itemprop=channelId]").getAttribute("content");
-		var url = urlFragment + externalId
-		copyText.value = url;
-		copyText.select();
-	  	copyText.setSelectionRange(0, url.length);
-	  	document.execCommand("copy");
-		copyText.blur();
-		$("#rssDiv").delay(1000).slideUp(slideSpeed);
-  	} else {
-    	$("#rssDiv").fadeOut(slideSpeed);
-  	}
+function channelId(path) {
+  const direct = path.match(/^\/channel\/(UC[\w-]{22})$/);
+  if (direct) return Promise.resolve(direct[1]);
+  if (!ids.has(path)) {
+    const lookup = fetch(path, { credentials: 'omit' })
+      .then((response) => response.text())
+      .then((html) => {
+        const id = html.match(/type="application\/rss\+xml"[^>]*channel_id=(UC[\w-]{22})/)?.[1]
+          ?? html.match(/"externalId":"(UC[\w-]{22})"/)?.[1];
+        if (!id) throw new Error(`No channel ID found on ${path}`);
+        return id;
+      });
+    lookup.catch(() => ids.delete(path));
+    ids.set(path, lookup);
+  }
+  return ids.get(path);
 }
 
-//creates the RSS button.
-function createRSSButton() {
-	var buttonDiv = document.createElement("div");
-	buttonDiv.setAttribute("id", "buttonDiv");
-	buttonDiv.style.setProperty("display", 'inline-block', "important");
-	buttonDiv.style.setProperty("height", '50px', "important");
-	buttonDiv.style.setProperty("padding", '7px', "important");
-	buttonDiv.style.setProperty("overflow", 'hidden', "important");
-	buttonDiv.style.setProperty("box-sizing", 'border-box', "important");
-
-	var button = document.createElement("button");
-	button.setAttribute("id", "rssbutton");
-
-	var buttonText = document.createTextNode("RSS");
-	button.appendChild(buttonText);
-
-	buttonDiv.appendChild(button)
-
-	button.addEventListener('click', function() {
-		rss(rssDiv);
-	});
-
-	return buttonDiv;
+// `url` is shown in a box to copy by hand, only when the clipboard refused it.
+function showResult(button, message, url) {
+  button.parentElement.querySelector('.yt-rss-result')?.remove();
+  const result = document.createElement('div');
+  result.className = 'yt-rss-result';
+  const text = document.createElement('p');
+  text.textContent = message;
+  result.append(text);
+  if (url) {
+    const field = document.createElement('input');
+    field.readOnly = true;
+    field.value = url;
+    field.addEventListener('focus', () => field.select());
+    result.append(field);
+  }
+  button.after(result);
+  setTimeout(() => result.remove(), url ? 12000 : 4000);
 }
 
-//creates the popup info
-function createPopup() {
-	var rssDiv = document.createElement("div");
-	rssDiv.setAttribute("id", "rssDiv");
-    rssDiv.style.setProperty("position", "absolute");
-	var link = document.createElement("input");
-	link.setAttribute("id", "linkInputBox");
-
-	var isDarkMode = document.getElementsByTagName("html")[0].getAttribute("dark");
-
-	if (isDarkMode) {
-		link.style.setProperty("background-color", "#1F1F1F");
-	}
-	else {
-		link.style.setProperty("background-color", "#F9F9F9");
-	}
-
-	var copyText = document.createElement("p");
-	copyText.setAttribute("id", "copyText");
-	copyText.setAttribute("style", "display:inline-block");
-	copyText.innerHTML = "RSS Link Copied to Clipboard!";
-
-	rssDiv.appendChild(copyText);
-	rssDiv.appendChild(link);
-	return rssDiv;
+async function copyFeed(button) {
+  const path = channelPath();
+  if (!path) return showResult(button, 'Could not find this channel.');
+  let url;
+  try {
+    url = FEED + await channelId(path);
+  } catch {
+    return showResult(button, 'Could not find this channel\'s feed. Try again in a moment.');
+  }
+  try {
+    await navigator.clipboard.writeText(url);
+    showResult(button, 'RSS link copied to clipboard');
+  } catch {
+    showResult(button, 'Copy this RSS link:', url);
+  }
 }
+
+function createButton() {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'yt-rss';
+  const button = document.createElement('button');
+  button.className = 'yt-rss-button';
+  button.type = 'button';
+  button.textContent = 'RSS';
+  button.title = 'Copy this channel\'s RSS feed link';
+  button.addEventListener('click', () => copyFeed(button));
+  wrapper.append(button);
+  return wrapper;
+}
+
+function placeButton() {
+  for (const spot of SPOTS) {
+    if (!spot.page()) continue;
+    const anchor = document.querySelector(spot.after ?? spot.inside);
+    if (!anchor) continue;
+    const parent = spot.after ? anchor.parentElement : anchor;
+    if (!parent.querySelector(':scope > .yt-rss')) {
+      if (spot.after) anchor.after(createButton());
+      else anchor.append(createButton());
+    }
+    const path = channelPath();
+    if (path) channelId(path).catch(() => {});
+  }
+}
+
+let queued = false;
+new MutationObserver(() => {
+  if (queued) return;
+  queued = true;
+  requestAnimationFrame(() => {
+    queued = false;
+    placeButton();
+  });
+}).observe(document.documentElement, { childList: true, subtree: true });
+
+document.addEventListener('yt-navigate-finish', placeButton);
+placeButton();

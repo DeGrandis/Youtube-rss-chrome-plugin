@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Youtube RSS</title>
+    <style>
+        :root{
+            color-scheme: light dark;
+            --bg: #ffffff;
+            --surface: #f2f2f2;
+            --border: #e2e2e2;
+            --text: #0f0f0f;
+            --muted: #606060;
+            --accent: #cc0000;
+            --link: #065fd4;
+        }
+        @media (prefers-color-scheme: dark){
+            :root{
+                --bg: #0f0f0f;
+                --surface: #222222;
+                --border: #333333;
+                --text: #f1f1f1;
+                --muted: #aaaaaa;
+                --link: #3ea6ff;
+            }
+        }
+        *{
+            box-sizing: border-box;
+        }
+        body{
+            width: 320px;
+            margin: 0;
+            padding: 16px;
+            background-color: var(--bg);
+            color: var(--text);
+            font: 13px/1.5 "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
+        }
+        p{
+            margin: 0;
+        }
+        a{
+            color: var(--link);
+            text-decoration: none;
+        }
+        a:hover{
+            text-decoration: underline;
+        }
+
+        header{
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        header img{
+            width: 32px;
+            height: 32px;
+        }
+        h1{
+            margin: 0;
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        #version{
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .pill{
+            display: inline-block;
+            padding: 0 8px;
+            border-radius: 9px;
+            background-color: var(--accent);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            line-height: 18px;
+        }
+
+        .note{
+            margin-top: 12px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            background-color: var(--surface);
+        }
+        .note strong{
+            display: block;
+            margin-bottom: 2px;
+        }
+        .note p{
+            color: var(--muted);
+        }
+
+        nav{
+            display: flex;
+            flex-direction: column;
+            margin-top: 14px;
+            border-top: 1px solid var(--border);
+        }
+        nav a{
+            display: flex;
+            justify-content: space-between;
+            padding: 9px 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+        }
+        nav a::after{
+            content: "\2197";
+            color: var(--muted);
+        }
+        nav a:hover{
+            color: var(--link);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <img src="icons/icon48.png" alt="">
+    <div>
+        <h1>Youtube RSS</h1>
+        <p id="version"></p>
+    </div>
+</header>
+
+<p>Click the <span class="pill">RSS</span> button next to Subscribe on any video or channel page.
+    The channel's feed link goes straight to your clipboard. Paste it into your RSS reader to follow
+    the channel without an account.</p>
+
+<div class="note">
+    <strong>Reader says the feed is broken?</strong>
+    <p>The link is correct. YouTube's feed server fails at random right now. Add the feed again,
+        or wait for your reader's next check.</p>
+</div>
+
+<nav>
+    <a target="_blank" href="https://github.com/DeGrandis/Youtube-rss-chrome-plugin">Source code on GitHub</a>
+    <a target="_blank" href="https://github.com/DeGrandis/Youtube-rss-chrome-plugin/issues/new">Report a problem</a>
+    <a target="_blank" href="https://chromewebstore.google.com/detail/cmkhdimgaondkfghelifknnpicdajeim/reviews">Rate it on the Chrome Web Store</a>
+</nav>
+
+<script src="popup.js"></script>
+</body>
+</html>
