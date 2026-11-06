@@ -90,6 +90,24 @@ try {
   check('copies the feed from a channel page (#4)',
     copied.clipboard === feed('UCBJycsmduvYEL83R_U4JriQ'), copied.clipboard);
   await page.screenshot({ path: join(out, 'channel.png'), clip: { x: 0, y: 0, width: 1366, height: 500 } });
+
+  // The toolbar popup. With no service worker, the extension's id comes from Chrome's own page.
+  const manager = await context.newPage();
+  await manager.goto('chrome://extensions');
+  const id = await manager.evaluate(async () => (await chrome.developerPrivate.getExtensionsInfo())[0].id);
+  await manager.close();
+  const popup = await context.newPage();
+  await popup.setViewportSize({ width: 320, height: 420 });
+  await popup.goto(`chrome-extension://${id}/popup.html`);
+  const manifest = await popup.evaluate(() => chrome.runtime.getManifest());
+  check('popup shows the version', (await popup.locator('#version').textContent()).includes(manifest.version));
+  const links = await popup.locator('nav a').evaluateAll((all) => all.map((a) => a.href));
+  check('popup links to GitHub and the store',
+    links.some((href) => href.includes('github.com/DeGrandis/Youtube-rss-chrome-plugin'))
+    && links.some((href) => href.includes('cmkhdimgaondkfghelifknnpicdajeim')), JSON.stringify(links));
+  await popup.screenshot({ path: join(out, 'popup.png'), fullPage: true });
+  await popup.emulateMedia({ colorScheme: 'dark' });
+  await popup.screenshot({ path: join(out, 'popup-dark.png'), fullPage: true });
 } finally {
   await context.close();
   rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 300 });
